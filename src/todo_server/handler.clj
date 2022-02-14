@@ -23,6 +23,9 @@
   (POST "/api/insert" {body :body}
     (let [task (get body :todoItem)]
       (tasks/add-task mysql-db {:task task})))
+  (DELETE "/api/deleteall" []
+    (tasks/delete-all mysql-db)
+    {})
   (DELETE "/api/delete" {body :body}
     (let [task (get body :task)]
       (tasks/delete-task mysql-db {:task task})))
@@ -36,6 +39,6 @@
       (wrap-json-body {:keywords? true})
       wrap-json-response
       (wrap-defaults api-defaults)
-      (wrap-cors :access-control-allow-origin [#"https://62089860e581350007bd9a2d--trusting-mirzakhani-c6e9c2.netlify.app"] :access-control-allow-methods [:get :put :post :delete])))
+      (wrap-cors :access-control-allow-origin [#"https://620ae71d11635100086a7281--trusting-mirzakhani-c6e9c2.netlify.app"] :access-control-allow-methods [:get :put :post :delete])))
 
 

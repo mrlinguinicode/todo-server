@@ -16,3 +16,7 @@ delete from todo where task = :task
 -- :name edit-task :!
 -- :doc edit mistakes on tasks
 update todo set task = :newtask where task = :oldtask
+
+-- :name delete-all :!
+-- :doc delete all tasks
+delete from todo
