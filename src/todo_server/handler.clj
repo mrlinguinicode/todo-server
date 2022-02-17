@@ -26,9 +26,9 @@
   (DELETE "/api/deleteall" []
     (tasks/delete-all mysql-db)
     {})
-  (DELETE "/api/delete" {body :body}
-    (let [id (get body :id)]
-      (tasks/delete-task mysql-db {:id id})))
+  (DELETE "/api/delete/:id" [id]
+    (println id)
+    (tasks/delete-task mysql-db {:id id}))
   (PUT "/api/update" {body :body}
     (if (contains? body :completed)
       (let [completed (get body :completed) id (get body :id)]
@@ -42,6 +42,6 @@
       (wrap-json-body {:keywords? true})
       wrap-json-response
       (wrap-defaults api-defaults)
-      (wrap-cors :access-control-allow-origin [#"http://localhost:3000"] :access-control-allow-methods [:get :put :post :delete])))
+      (wrap-cors :access-control-allow-origin [#"https://justinstodo.herokuapp.com"] :access-control-allow-methods [:get :put :post :delete])))
 
 
