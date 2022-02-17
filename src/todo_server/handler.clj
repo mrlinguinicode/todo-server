@@ -27,11 +27,14 @@
     (tasks/delete-all mysql-db)
     {})
   (DELETE "/api/delete" {body :body}
-    (let [task (get body :task)]
-      (tasks/delete-task mysql-db {:task task})))
+    (let [id (get body :id)]
+      (tasks/delete-task mysql-db {:id id})))
   (PUT "/api/update" {body :body}
-    (let [oldtask (get body :oldtask) newtask (get body :newtask)]
-      (tasks/edit-task mysql-db {:oldtask oldtask :newtask newtask})))
+    (if (contains? body :completed)
+      (let [completed (get body :completed) id (get body :id)]
+        (tasks/update-status mysql-db {:completed completed :id id}))
+      (let [task (get body :task) id (get body :id)]
+        (tasks/edit-task mysql-db {:id id :task task}))))
   (route/not-found "Not Found"))
 
 (def app
@@ -39,6 +42,6 @@
       (wrap-json-body {:keywords? true})
       wrap-json-response
       (wrap-defaults api-defaults)
-      (wrap-cors :access-control-allow-origin [#"https://620ae71d11635100086a7281--trusting-mirzakhani-c6e9c2.netlify.app"] :access-control-allow-methods [:get :put :post :delete])))
+      (wrap-cors :access-control-allow-origin [#"http://localhost:3000"] :access-control-allow-methods [:get :put :post :delete])))
 
 
